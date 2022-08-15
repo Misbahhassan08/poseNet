@@ -1,25 +1,11 @@
-# Copyright 2021 The TensorFlow Authors. All Rights Reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-"""Script to run visualize pose estimation on test data."""
 import argparse
 import logging
 
 import cv2
 from data import BodyPart
 from data import person_from_keypoints_with_scores
-from ml import Movenet
-from ml import Posenet
+from detector import Movenet
+from detector import Posenet
 import numpy as np
 import pandas as pd
 import utils
@@ -46,24 +32,6 @@ _KEYPOINTS_TRUTH_LIST = [
 
 
 def _visualize_detection_result(input_image, ground_truth):
-  """Visualize the pose estimation result and write the output image to a file.
-
-  The detected keypoints follow these color codes:
-      * PoseNet: blue
-      * MoveNet Lightning: red
-      * MoveNet Thunder: yellow
-      * Ground truth (from CSV): green
-  Note: This test is meant to be run by a human who want to visually verify
-  the pose estimation result.
-
-  Args:
-    input_image: Numpy array of shape (height, width, 3)
-    ground_truth: Numpy array with absolute coordinates of the keypoints to be
-      plotted.
-
-  Returns:
-    Input image with pose estimation results.
-  """
   output_image = input_image.copy()
 
   # Draw detection result from Posenet (blue)
@@ -91,12 +59,6 @@ def _visualize_detection_result(input_image, ground_truth):
 
 
 def _create_ground_truth_csv(input_images, ground_truth_csv_path):
-  """Create ground truth CSV file from the given input images.
-
-  Args:
-    input_images: An array of input RGB images (height, width, 3).
-    ground_truth_csv_path: path to the output CSV.
-  """
   # Create column name for CSV file
   column_names = []
   for body_part in BodyPart:

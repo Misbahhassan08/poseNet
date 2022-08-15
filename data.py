@@ -1,18 +1,3 @@
-# Copyright 2021 The TensorFlow Authors. All Rights Reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-"""Module contains the data types used in pose estimation."""
-
 import enum
 from typing import List, NamedTuple
 
@@ -72,19 +57,6 @@ def person_from_keypoints_with_scores(
     image_height: float,
     image_width: float,
     keypoint_score_threshold: float = 0.1) -> Person:
-  """Creates a Person instance from single pose estimation model output.
-
-  Args:
-    keypoints_with_scores: Output of the TFLite pose estimation model. A numpy
-      array with shape [17, 3]. Each row represents a keypoint: [y, x, score].
-    image_height: height of the image in pixels.
-    image_width: width of the image in pixels.
-    keypoint_score_threshold: Only use keypoints with above this threshold to
-      calculate the person average score.
-
-  Returns:
-    A Person instance.
-  """
 
   kpts_x = keypoints_with_scores[:, 1]
   kpts_y = keypoints_with_scores[:, 0]

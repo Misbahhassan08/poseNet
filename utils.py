@@ -1,18 +1,3 @@
-# Copyright 2021 The TensorFlow Authors. All Rights Reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-"""Utility functions to display the pose detection results."""
-
 import math
 from typing import List, Tuple
 
@@ -66,18 +51,6 @@ def visualize(
     keypoint_threshold: float = 0.05,
     instance_threshold: float = 0.1,
 ) -> np.ndarray:
-  """Draws landmarks and edges on the input image and return it.
-
-  Args:
-    image: The input RGB image.
-    list_persons: The list of all "Person" entities to be visualize.
-    keypoint_color: the colors in which the landmarks should be plotted.
-    keypoint_threshold: minimum confidence score for a keypoint to be drawn.
-    instance_threshold: minimum confidence score for a person to be drawn.
-
-  Returns:
-    Image with keypoints and edges.
-  """
   for person in list_persons:
     if person.score < instance_threshold:
       continue
@@ -126,24 +99,6 @@ def visualize(
 
 def keep_aspect_ratio_resizer(
     image: np.ndarray, target_size: int) -> Tuple[np.ndarray, Tuple[int, int]]:
-  """Resizes the image.
-
-  The function resizes the image such that its longer side matches the required
-  target_size while keeping the image aspect ratio. Note that the resizes image
-  is padded such that both height and width are a multiple of 32, which is
-  required by the model. See
-  https://tfhub.dev/google/tfjs-model/movenet/multipose/lightning/1 for more
-  detail.
-
-  Args:
-    image: The input RGB image as a numpy array of shape [height, width, 3].
-    target_size: Desired size that the image should be resize to.
-
-  Returns:
-    image: The resized image.
-    (target_height, target_width): The actual image size after resize.
-
-  """
   height, width, _ = image.shape
   if height > width:
     scale = float(target_size / height)
